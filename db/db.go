@@ -4,26 +4,28 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+
+	"project-orders/db/sqlc"
 )
 
 type Storage interface {
 	sqlc.Querier
 }
 
-type SqlStorage struct {
+type SQLStore struct {
 	db *sql.DB
 	*sqlc.Queries
 }
 
-func NewStorage(db *sql.DB) Storage {
-	return &SqlStorage{
+func NewStore(db *sql.DB) Storage {
+	return &SQLStore{
 		db:      db,
 		Queries: sqlc.New(db),
 	}
 }
 
-func (storage *SqlStorage) execTx(ctx context.Context, fn func(*sqlc.Queries) error) error {
-	tx, err := storage.db.BeginTx(ctx, nil)
+func (store *SQLStore) execTx(ctx context.Context, fn func(*sqlc.Queries) error) error {
+	tx, err := store.db.BeginTx(ctx, nil)
 	if err != nil {
 		return err
 	}

@@ -1,11 +1,15 @@
 package server
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
-	"orders_hexagonal/db"
-	"orders_hexagonal/token"
-	"orders_hexagonal/util"
+
+	"github.com/gin-gonic/gin"
+
+	"project-orders/api/v1/paseto"
+	"project-orders/api/v1/user"
+	"project-orders/db"
+	"project-orders/token"
+	"project-orders/util"
 )
 
 type Server struct {
@@ -15,7 +19,7 @@ type Server struct {
 	config     util.Config
 }
 
-func NewServer(config util.Config, storage db.Storage) *Server {
+func NewGin(config util.Config, storage db.Storage) *Server {
 	tokenMaker, _ := token.NewPasetoMaker(config.TokenSymmetricKey)
 
 	server := &Server{
@@ -43,9 +47,11 @@ func (server *Server) createRoutesV1(router *gin.Engine) {
 
 	v1 := router.Group("/v1")
 
-	tokenRoutes := paseto.NewToken(server.storage)
+	userRoutes := user.NewUser(server.storage, server.config)
+	pasetoRoutes := paseto.NewPaseto(server.storage)
+
 	userRoutes.SetupUserRoute(v1)
-	tokenRoutes.SetupTokenRoute(v1)
+	pasetoRoutes.SetupPasetoRoute(v1)
 
 }
 

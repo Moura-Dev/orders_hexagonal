@@ -3,6 +3,9 @@ package token
 import (
 	"fmt"
 	"time"
+
+	"github.com/aead/chacha20poly1305"
+	"github.com/o1egl/paseto"
 )
 
 type PasetoMaker struct {

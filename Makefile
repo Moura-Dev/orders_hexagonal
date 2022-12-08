@@ -16,11 +16,9 @@ up:
 	docker-compose up -d
 
 sqlc:
-	rm -rf db/sqlc
+	if [ ! -d "db/sqlc" ]; then rm -rf db/sqlc; fi
 	sqlc generate
 
-first-sqlc:
-	sqlc generate
 start:
 	go run main.go
 

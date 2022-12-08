@@ -2,9 +2,16 @@ package main
 
 import (
 	"database/sql"
-	"orders_hexagonal/db"
-	"orders_hexagonal/server"
-	"orders_hexagonal/util"
+
+	"github.com/golang-migrate/migrate/v4"
+	"github.com/golang-migrate/migrate/v4/database"
+	"github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
+	_ "github.com/lib/pq"
+
+	"project-orders/db"
+	"project-orders/server"
+	"project-orders/util"
 )
 
 func main() {
@@ -14,9 +21,9 @@ func main() {
 
 	runDBMigration(config.MigrationURL, config.DBDriver, driver)
 
-	store := db.NewStorage(conn)
+	storage := db.NewStore(conn)
 
-	runGinServer(config, store)
+	runGinServer(config, storage)
 }
 
 func runDBMigration(migrationURL string, dbSource string, driver database.Driver) {
@@ -25,8 +32,8 @@ func runDBMigration(migrationURL string, dbSource string, driver database.Driver
 	_ = m.Up()
 }
 
-func runGinServer(config util.Config, store db.Store) {
-	api := server.NewServer(config, store)
+func runGinServer(config util.Config, storage db.Storage) {
+	api := server.NewGin(config, storage)
 
 	_ = api.Start(config.HTTPServerAddress)
 }

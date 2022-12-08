@@ -1,0 +1,162 @@
+Table companies {
+  id serial [PK]
+  created_at timestamptz [NOT NULL, DEFAULT: `now()`]
+  updated_at timestamptz [NOT NULL, DEFAULT: `now()`]
+}
+
+Table users {
+  id serial [PK]
+  company_id serial [ref: > companies.id]
+  name varchar
+  email varchar [UNIQUE]
+  password varchar
+  created_at timestamptz [NOT NULL, DEFAULT: `now()`]
+  updated_at timestamptz [NOT NULL, DEFAULT: `now()`]
+}
+
+Table user_companies {
+  id serial [PK]
+  company_id serial [ref: > companies.id]
+  user_id serial [ref: > users.id]
+  created_at timestamptz [NOT NULL, DEFAULT: `now()`]
+  updated_at timestamptz [NOT NULL, DEFAULT: `now()`]
+}
+
+Table roles {
+  id serial [PK]
+  company_id serial [ref: > companies.id]
+  user_id serial [ref: > users.id]
+  name varchar
+  created_at timestamptz [NOT NULL, DEFAULT: `now()`]
+  updated_at timestamptz [NOT NULL, DEFAULT: `now()`]
+}
+
+Table user_roles {
+  id serial [PK]
+  company_id serial [ref: > companies.id]
+  user_id serial [ref: > users.id]
+  created_at timestamptz [NOT NULL, DEFAULT: `now()`]
+  updated_at timestamptz [NOT NULL, DEFAULT: `now()`]
+}
+
+Table permissions {
+  id serial [PK]
+  company_id serial [ref: > companies.id]
+  user_id serial [ref: > users.id]
+  name varchar
+  created_at timestamptz [NOT NULL, DEFAULT: `now()`]
+  updated_at timestamptz [NOT NULL, DEFAULT: `now()`]
+}
+
+Table permission_roles {
+  id serial [PK]
+  company_id serial [ref: > companies.id]
+  user_id serial [ref: > users.id]
+  created_at timestamptz [NOT NULL, DEFAULT: `now()`]
+  updated_at timestamptz [NOT NULL, DEFAULT: `now()`]
+}
+
+Table contacts {
+  id serial [PK]
+  company_id serial [ref: > companies.id]
+  user_id serial [ref: > users.id]
+  created_at timestamptz [NOT NULL, DEFAULT: `now()`]
+  updated_at timestamptz [NOT NULL, DEFAULT: `now()`]
+}
+
+Table costumers {
+  id serial [PK]
+  company_id serial [ref: > companies.id]
+  user_id serial [ref: > users.id]
+  contact_id serial [ref: > contacts.id]
+  created_at timestamptz [NOT NULL, DEFAULT: `now()`]
+  updated_at timestamptz [NOT NULL, DEFAULT: `now()`]
+}
+
+Table factories {
+  id serial [PK]
+  company_id serial [ref: > companies.id]
+  contact_id serial [ref: > factories.id]
+  user_id serial [ref: > users.id]
+  created_at timestamptz [NOT NULL, DEFAULT: `now()`]
+  updated_at timestamptz [NOT NULL, DEFAULT: `now()`]
+}
+
+Table catalogs {
+  id serial [PK]
+  company_id serial [ref: > companies.id]
+  user_id serial [ref: > users.id]
+  factory_id serial [ref: > factories.id]
+  data date
+  created_at timestamptz [NOT NULL, DEFAULT: `now()`]
+  updated_at timestamptz [NOT NULL, DEFAULT: `now()`]
+}
+
+Table items {
+  id serial [PK]
+  company_id serial [ref: > companies.id]
+  catalog_id serial [ref: > catalogs.id]
+  factory_id serial [ref: > factories.id]
+  user_id serial [ref: > users.id]
+  code varchar
+  reference varchar
+  description text
+  image_url text
+  price real
+  ipi real
+  discount smallint
+  quantity smallint
+  created_at timestamptz [NOT NULL, DEFAULT: `now()`]
+  updated_at timestamptz [NOT NULL, DEFAULT: `now()`]
+}
+
+Table orders {
+  id serial [PK]
+  company_id serial [ref: > companies.id]
+  costumer_id serial [ref: > costumers.id]
+  contact_id serial [ref: > costumers.id]
+  user_id serial [ref: > users.id]
+  factory_id serial [ref: > factories.id]
+  sub_total real
+  total real
+  ipi real
+  created_at timestamptz [NOT NULL, DEFAULT: `now()`]
+  updated_at timestamptz [NOT NULL, DEFAULT: `now()`]
+}
+
+Table order_items {
+  id serial [PK]
+  company_id serial [ref: > companies.id]
+  user_id serial [ref: > users.id]
+  order_id serial [ref: > orders.id]
+  ipi real
+  discount smallint
+  quantity smallint
+  created_at timestamptz [NOT NULL, DEFAULT: `now()`]
+  updated_at timestamptz [NOT NULL, DEFAULT: `now()`]
+}
+
+Table item_prices {
+  id serial [PK]
+  company_id serial [ref: > companies.id]
+  item_id serial [ref: > items.id]
+  user_id serial [ref: > users.id]
+  created_at timestamptz [NOT NULL, DEFAULT: `now()`]
+  updated_at timestamptz [NOT NULL, DEFAULT: `now()`]
+}
+
+Table available_catalogs_by_company {
+  id serial [PK]
+  company_id serial [ref: > companies.id]
+  user_id serial [ref: > users.id]
+  created_at timestamptz [NOT NULL, DEFAULT: `now()`]
+  updated_at timestamptz [NOT NULL, DEFAULT: `now()`]
+}
+
+Table available_factories_by_company {
+  id serial [PK]
+  company_id serial [ref: > companies.id]
+  user_id serial [ref: > users.id]
+  created_at timestamptz [NOT NULL, DEFAULT: `now()`]
+  updated_at timestamptz [NOT NULL, DEFAULT: `now()`]
+}

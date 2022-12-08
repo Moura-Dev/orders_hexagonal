@@ -1,12 +1,12 @@
 version: "2"
 sql:
-  - schema: "db/migrations"
-    queries: "db/queries"
-    engine: "postgresql"
-    gen:
-      go:
-        package: "sqlc"
-        out: "db/sqlc"
-        json_tags_case_style: camel
-        emit_interface: true
-        emit_empty_slices: true
+    - schema: "db/migrations"
+      queries: "db/queries"
+      engine: "postgresql"
+      gen:
+          go:
+              package: "sqlc"
+              out: "db/sqlc"
+              json_tags_case_style: camel
+              emit_interface: true
+              emit_empty_slices: true
