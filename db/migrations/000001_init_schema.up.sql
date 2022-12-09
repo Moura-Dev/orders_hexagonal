@@ -1,6 +1,7 @@
 CREATE TABLE "companies"
 (
     "id"         serial PRIMARY KEY,
+    "name" varchar NOT NULL,
     "created_at" timestamptz NOT NULL DEFAULT (now()),
     "updated_at" timestamptz NOT NULL DEFAULT (now())
 );
@@ -68,6 +69,15 @@ CREATE TABLE "contacts"
     "id"         serial PRIMARY KEY,
     "company_id" serial,
     "user_id"    serial,
+    "email"     varchar,
+    "website"     varchar,
+    "address"     varchar,
+    "inscricao_estadual"     varchar,
+    "cnpj"     varchar,
+    "name"     varchar,
+    "cellphone"     varchar,
+    "logo_url"     varchar,
+    "fantasy_name"     varchar,
     "created_at" timestamptz NOT NULL DEFAULT (now()),
     "updated_at" timestamptz NOT NULL DEFAULT (now())
 );
