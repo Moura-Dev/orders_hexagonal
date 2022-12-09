@@ -1,6 +1,7 @@
 package contact
 
 import (
+	"database/sql"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -19,20 +20,20 @@ func (c Contact) create(ctx *gin.Context) {
 	}
 
 	arg := sqlc.CreateContactParams{
-		CompanyID:         req.CompanyID,
-		UserID:            req.UserID,
-		Email:             req.Email,
-		Website:           req.Website,
-		Address:           req.Address,
-		InscricaoEstadual: req.InscricaoEstadual,
-		Cnpj:              req.Cnpj,
-		Name:              req.Name,
-		Cellphone:         req.Cellphone,
-		LogoUrl:           req.LogoUrl,
-		FantasyName:       req.FantasyName,
+		CompanyID:         sql.NullInt32{Int32: req.CompanyID, Valid: true},
+		UserID:            sql.NullInt32{Int32: req.UserID, Valid: true},
+		Email:             sql.NullString{String: req.Email, Valid: true},
+		Website:           sql.NullString{String: req.Website, Valid: true},
+		Address:           sql.NullString{String: req.Address, Valid: true},
+		InscricaoEstadual: sql.NullString{String: req.InscricaoEstadual, Valid: true},
+		Cnpj:              sql.NullString{String: req.CNPJ, Valid: true},
+		Name:              sql.NullString{String: req.Name, Valid: true},
+		Cellphone:         sql.NullString{String: req.Cellphone, Valid: true},
+		LogoUrl:           sql.NullString{String: req.LogoURL, Valid: true},
+		FantasyName:       sql.NullString{String: req.FantasyName, Valid: true},
 	}
 
-	user, err := u.db.CreateUser(ctx, arg)
+	contact, err := c.db.CreateContact(ctx, arg)
 	if err != nil {
 		if pqErr, ok := err.(*pq.Error); ok {
 			switch pqErr.Code.Name() {
@@ -45,7 +46,7 @@ func (c Contact) create(ctx *gin.Context) {
 		return
 	}
 
-	rsp := models.UserToJSON(user)
+	rsp := models.ContactToJSON(contact)
 
 	ctx.JSON(http.StatusOK, rsp)
 }

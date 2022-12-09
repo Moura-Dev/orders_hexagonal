@@ -1,203 +1,203 @@
 CREATE TABLE "companies"
 (
-    "id"         serial PRIMARY KEY,
-    "name" varchar NOT NULL,
-    "created_at" timestamptz NOT NULL DEFAULT (now()),
-    "updated_at" timestamptz NOT NULL DEFAULT (now())
+    "id"         SERIAL PRIMARY KEY,
+    "name"       VARCHAR     NOT NULL,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT (now()),
+    "updated_at" TIMESTAMPTZ NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "users"
 (
-    "id"         serial PRIMARY KEY,
-    "company_id" serial,
-    "name"       varchar        NOT NULL,
-    "email"      varchar UNIQUE NOT NULL,
-    "password"   varchar        NOT NULL,
-    "created_at" timestamptz    NOT NULL DEFAULT (now()),
-    "updated_at" timestamptz    NOT NULL DEFAULT (now())
+    "id"         SERIAL PRIMARY KEY,
+    "company_id" SERIAL         NOT NULL,
+    "name"       VARCHAR        NOT NULL,
+    "email"      VARCHAR UNIQUE NOT NULL,
+    "password"   VARCHAR        NOT NULL,
+    "created_at" TIMESTAMPTZ    NOT NULL DEFAULT (now()),
+    "updated_at" TIMESTAMPTZ    NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "user_companies"
 (
-    "id"         serial PRIMARY KEY,
-    "company_id" serial,
-    "user_id"    serial,
-    "created_at" timestamptz NOT NULL DEFAULT (now()),
-    "updated_at" timestamptz NOT NULL DEFAULT (now())
+    "id"         SERIAL PRIMARY KEY,
+    "company_id" SERIAL,
+    "user_id"    SERIAL,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT (now()),
+    "updated_at" TIMESTAMPTZ NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "roles"
 (
-    "id"         serial PRIMARY KEY,
-    "company_id" serial,
-    "user_id"    serial,
-    "name"       varchar,
-    "created_at" timestamptz NOT NULL DEFAULT (now()),
-    "updated_at" timestamptz NOT NULL DEFAULT (now())
+    "id"         SERIAL PRIMARY KEY,
+    "company_id" SERIAL,
+    "user_id"    SERIAL,
+    "name"       VARCHAR,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT (now()),
+    "updated_at" TIMESTAMPTZ NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "user_roles"
 (
-    "id"         serial PRIMARY KEY,
-    "company_id" serial,
-    "user_id"    serial,
-    "created_at" timestamptz NOT NULL DEFAULT (now()),
-    "updated_at" timestamptz NOT NULL DEFAULT (now())
+    "id"         SERIAL PRIMARY KEY,
+    "company_id" SERIAL,
+    "user_id"    SERIAL,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT (now()),
+    "updated_at" TIMESTAMPTZ NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "permissions"
 (
-    "id"         serial PRIMARY KEY,
-    "company_id" serial,
-    "user_id"    serial,
-    "name"       varchar,
-    "created_at" timestamptz NOT NULL DEFAULT (now()),
-    "updated_at" timestamptz NOT NULL DEFAULT (now())
+    "id"         SERIAL PRIMARY KEY,
+    "company_id" SERIAL,
+    "user_id"    SERIAL,
+    "name"       VARCHAR,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT (now()),
+    "updated_at" TIMESTAMPTZ NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "permission_roles"
 (
-    "id"         serial PRIMARY KEY,
-    "company_id" serial,
-    "user_id"    serial,
-    "created_at" timestamptz NOT NULL DEFAULT (now()),
-    "updated_at" timestamptz NOT NULL DEFAULT (now())
+    "id"         SERIAL PRIMARY KEY,
+    "company_id" SERIAL,
+    "user_id"    SERIAL,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT (now()),
+    "updated_at" TIMESTAMPTZ NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "contacts"
 (
-    "id"         serial PRIMARY KEY,
-    "company_id" serial,
-    "user_id"    serial,
-    "email"     varchar,
-    "website"     varchar,
-    "address"     varchar,
-    "inscricao_estadual"     varchar,
-    "cnpj"     varchar,
-    "name"     varchar,
-    "cellphone"     varchar,
-    "logo_url"     varchar,
-    "fantasy_name"     varchar,
-    "created_at" timestamptz NOT NULL DEFAULT (now()),
-    "updated_at" timestamptz NOT NULL DEFAULT (now())
+    "id"                 SERIAL PRIMARY KEY,
+    "company_id"         SERIAL,
+    "user_id"            SERIAL,
+    "email"              VARCHAR,
+    "website"            VARCHAR,
+    "address"            VARCHAR,
+    "inscricao_estadual" VARCHAR,
+    "cnpj"               VARCHAR,
+    "name"               VARCHAR,
+    "cellphone"          VARCHAR,
+    "logo_url"           VARCHAR,
+    "fantasy_name"       VARCHAR,
+    "created_at"         TIMESTAMPTZ NOT NULL DEFAULT (now()),
+    "updated_at"         TIMESTAMPTZ NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "costumers"
 (
-    "id"         serial PRIMARY KEY,
-    "company_id" serial,
-    "user_id"    serial,
-    "contact_id" serial,
-    "created_at" timestamptz NOT NULL DEFAULT (now()),
-    "updated_at" timestamptz NOT NULL DEFAULT (now())
+    "id"         SERIAL PRIMARY KEY,
+    "company_id" SERIAL,
+    "user_id"    SERIAL,
+    "contact_id" SERIAL,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT (now()),
+    "updated_at" TIMESTAMPTZ NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "factories"
 (
-    "id"         serial PRIMARY KEY,
-    "company_id" serial,
-    "contact_id" serial,
-    "user_id"    serial,
-    "created_at" timestamptz NOT NULL DEFAULT (now()),
-    "updated_at" timestamptz NOT NULL DEFAULT (now())
+    "id"         SERIAL PRIMARY KEY,
+    "company_id" SERIAL,
+    "contact_id" SERIAL,
+    "user_id"    SERIAL,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT (now()),
+    "updated_at" TIMESTAMPTZ NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "catalogs"
 (
-    "id"         serial PRIMARY KEY,
-    "company_id" serial,
-    "user_id"    serial,
-    "factory_id" serial,
-    "data"       date,
-    "created_at" timestamptz NOT NULL DEFAULT (now()),
-    "updated_at" timestamptz NOT NULL DEFAULT (now())
+    "id"         SERIAL PRIMARY KEY,
+    "company_id" SERIAL,
+    "user_id"    SERIAL,
+    "factory_id" SERIAL,
+    "data"       DATE,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT (now()),
+    "updated_at" TIMESTAMPTZ NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "items"
 (
-    "id"          serial PRIMARY KEY,
-    "company_id"  serial,
-    "catalog_id"  serial,
-    "factory_id"  serial,
-    "user_id"     serial,
-    "code"        varchar,
-    "reference"   varchar,
-    "description" text,
-    "image_url"   text,
-    "price"       real,
-    "ipi"         real,
-    "discount"    smallint,
-    "quantity"    smallint,
-    "created_at"  timestamptz NOT NULL DEFAULT (now()),
-    "updated_at"  timestamptz NOT NULL DEFAULT (now())
+    "id"          SERIAL PRIMARY KEY,
+    "company_id"  SERIAL,
+    "catalog_id"  SERIAL,
+    "factory_id"  SERIAL,
+    "user_id"     SERIAL,
+    "code"        VARCHAR,
+    "reference"   VARCHAR,
+    "description" VARCHAR,
+    "image_url"   VARCHAR,
+    "price"       REAL,
+    "ipi"         REAL,
+    "discount"    SMALLINT,
+    "quantity"    SMALLINT,
+    "created_at"  TIMESTAMPTZ NOT NULL DEFAULT (now()),
+    "updated_at"  TIMESTAMPTZ NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "orders"
 (
-    "id"          serial PRIMARY KEY,
-    "company_id"  serial,
-    "costumer_id" serial,
-    "contact_id"  serial,
-    "user_id"     serial,
-    "factory_id"  serial,
-    "sub_total"   real,
-    "total"       real,
-    "ipi"         real,
-    "created_at"  timestamptz NOT NULL DEFAULT (now()),
-    "updated_at"  timestamptz NOT NULL DEFAULT (now())
+    "id"          SERIAL PRIMARY KEY,
+    "company_id"  SERIAL,
+    "costumer_id" SERIAL,
+    "contact_id"  SERIAL,
+    "user_id"     SERIAL,
+    "factory_id"  SERIAL,
+    "sub_total"   REAL,
+    "total"       REAL,
+    "ipi"         REAL,
+    "created_at"  TIMESTAMPTZ NOT NULL DEFAULT (now()),
+    "updated_at"  TIMESTAMPTZ NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "order_items"
 (
-    "id"         serial PRIMARY KEY,
-    "company_id" serial,
-    "user_id"    serial,
-    "order_id"   serial,
-    "ipi"        real,
-    "discount"   smallint,
-    "quantity"   smallint,
-    "created_at" timestamptz NOT NULL DEFAULT (now()),
-    "updated_at" timestamptz NOT NULL DEFAULT (now())
+    "id"         SERIAL PRIMARY KEY,
+    "company_id" SERIAL,
+    "user_id"    SERIAL,
+    "order_id"   SERIAL,
+    "ipi"        REAL,
+    "discount"   SMALLINT,
+    "quantity"   SMALLINT,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT (now()),
+    "updated_at" TIMESTAMPTZ NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "item_prices"
 (
-    "id"         serial PRIMARY KEY,
-    "company_id" serial,
-    "item_id"    serial,
-    "user_id"    serial,
-    "created_at" timestamptz NOT NULL DEFAULT (now()),
-    "updated_at" timestamptz NOT NULL DEFAULT (now())
+    "id"         SERIAL PRIMARY KEY,
+    "company_id" SERIAL,
+    "item_id"    SERIAL,
+    "user_id"    SERIAL,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT (now()),
+    "updated_at" TIMESTAMPTZ NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "available_catalogs_by_company"
 (
-    "id"         serial PRIMARY KEY,
-    "company_id" serial,
-    "user_id"    serial,
-    "created_at" timestamptz NOT NULL DEFAULT (now()),
-    "updated_at" timestamptz NOT NULL DEFAULT (now())
+    "id"         SERIAL PRIMARY KEY,
+    "company_id" SERIAL,
+    "user_id"    SERIAL,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT (now()),
+    "updated_at" TIMESTAMPTZ NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "available_factories_by_company"
 (
-    "id"         serial PRIMARY KEY,
-    "company_id" serial,
-    "user_id"    serial,
-    "created_at" timestamptz NOT NULL DEFAULT (now()),
-    "updated_at" timestamptz NOT NULL DEFAULT (now())
+    "id"         SERIAL PRIMARY KEY,
+    "company_id" SERIAL,
+    "user_id"    SERIAL,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT (now()),
+    "updated_at" TIMESTAMPTZ NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "sessions"
 (
-    "id"            uuid PRIMARY KEY,
-    "email"         varchar     NOT NULL,
-    "refresh_token" varchar     NOT NULL,
-    "user_agent"    varchar     NOT NULL,
-    "client_ip"     varchar     NOT NULL,
-    "is_blocked"    boolean     NOT NULL DEFAULT false,
-    "expires_at"    timestamptz NOT NULL,
-    "created_at"    timestamptz NOT NULL DEFAULT (now())
+    "id"            UUID PRIMARY KEY,
+    "email"         VARCHAR     NOT NULL,
+    "refresh_token" VARCHAR     NOT NULL,
+    "user_agent"    VARCHAR     NOT NULL,
+    "client_ip"     VARCHAR     NOT NULL,
+    "is_blocked"    BOOLEAN     NOT NULL DEFAULT false,
+    "expires_at"    TIMESTAMPTZ NOT NULL,
+    "created_at"    TIMESTAMPTZ NOT NULL DEFAULT (now())
 );
 
 ALTER TABLE "users"

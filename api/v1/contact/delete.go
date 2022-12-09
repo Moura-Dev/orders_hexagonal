@@ -1,4 +1,4 @@
-package user
+package contact
 
 import (
 	"net/http"
@@ -8,13 +8,13 @@ import (
 	"project-orders/api/models"
 )
 
-func (u Contact) delete(ctx *gin.Context) {
-	var req models.DeleteUserRequest
+func (c Contact) delete(ctx *gin.Context) {
+	var req models.DeleteContactRequest
 	if err := ctx.ShouldBindUri(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
-	_, err := u.db.DeleteUserByID(ctx, req.ID)
+	_, err := c.db.DeleteUserByID(ctx, req.ID)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, err.Error())
 		return

@@ -12,7 +12,8 @@ import (
 )
 
 const createContact = `-- name: CreateContact :one
-INSERT INTO contacts (company_id, user_id, email, website, address, inscricao_estadual, cnpj, name, cellphone, logo_url, fantasy_name)
+INSERT INTO contacts (company_id, user_id, email, website, address, inscricao_estadual, cnpj, name, cellphone, logo_url,
+                      fantasy_name)
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
 RETURNING id, company_id, user_id, email, website, address, inscricao_estadual, cnpj, name, cellphone, logo_url, fantasy_name, created_at, updated_at
 `
@@ -69,7 +70,7 @@ const deleteContactById = `-- name: DeleteContactById :one
 DELETE
 FROM contacts
 WHERE id = $1
-    RETURNING id, company_id, user_id, email, website, address, inscricao_estadual, cnpj, name, cellphone, logo_url, fantasy_name, created_at, updated_at
+RETURNING id, company_id, user_id, email, website, address, inscricao_estadual, cnpj, name, cellphone, logo_url, fantasy_name, created_at, updated_at
 `
 
 func (q *Queries) DeleteContactById(ctx context.Context, id int32) (Contact, error) {
@@ -94,14 +95,14 @@ func (q *Queries) DeleteContactById(ctx context.Context, id int32) (Contact, err
 	return i, err
 }
 
-const getContactCompanyId = `-- name: GetContactCompanyId :one
+const getContactByCompanyID = `-- name: GetContactByCompanyID :one
 SELECT id, company_id, user_id, email, website, address, inscricao_estadual, cnpj, name, cellphone, logo_url, fantasy_name, created_at, updated_at
-FROM contacts c
-WHERE c.company_id = $1
+FROM contacts
+WHERE company_id = $1
 `
 
-func (q *Queries) GetContactCompanyId(ctx context.Context, companyID sql.NullInt32) (Contact, error) {
-	row := q.db.QueryRowContext(ctx, getContactCompanyId, companyID)
+func (q *Queries) GetContactByCompanyID(ctx context.Context, companyID sql.NullInt32) (Contact, error) {
+	row := q.db.QueryRowContext(ctx, getContactByCompanyID, companyID)
 	var i Contact
 	err := row.Scan(
 		&i.ID,
@@ -122,14 +123,14 @@ func (q *Queries) GetContactCompanyId(ctx context.Context, companyID sql.NullInt
 	return i, err
 }
 
-const getContactsId = `-- name: GetContactsId :one
+const getContactByID = `-- name: GetContactByID :one
 SELECT id, company_id, user_id, email, website, address, inscricao_estadual, cnpj, name, cellphone, logo_url, fantasy_name, created_at, updated_at
-FROM contacts c
-WHERE c.id = $1
+FROM contacts
+WHERE id = $1
 `
 
-func (q *Queries) GetContactsId(ctx context.Context, id int32) (Contact, error) {
-	row := q.db.QueryRowContext(ctx, getContactsId, id)
+func (q *Queries) GetContactByID(ctx context.Context, id int32) (Contact, error) {
+	row := q.db.QueryRowContext(ctx, getContactByID, id)
 	var i Contact
 	err := row.Scan(
 		&i.ID,
@@ -162,8 +163,7 @@ FROM (SELECT id, company_id, user_id, email, website, address, inscricao_estadua
                    WHEN NOT $3::bool AND $4::text = 'id' THEN id END,
                CASE
                    WHEN $3::bool AND $4::text = 'id' THEN id END DESC) sub_query
-LIMIT $1
-OFFSET $2
+LIMIT $1 OFFSET $2
 `
 
 type ListContactsParams struct {
@@ -237,17 +237,17 @@ func (q *Queries) ListContacts(ctx context.Context, arg ListContactsParams) ([]L
 
 const updateContactByID = `-- name: UpdateContactByID :one
 UPDATE contacts
-SET company_id = COALESCE($1, company_id),
-    user_id = COALESCE($2, user_id),
-    email = COALESCE($3, email),
-    website = COALESCE($4, website),
-    address = COALESCE($5, address),
+SET company_id         = COALESCE($1, company_id),
+    user_id            = COALESCE($2, user_id),
+    email              = COALESCE($3, email),
+    website            = COALESCE($4, website),
+    address            = COALESCE($5, address),
     inscricao_estadual = COALESCE($6, inscricao_estadual),
-    cnpj = COALESCE($7, cnpj),
-    name = COALESCE($8, name),
-    cellphone = COALESCE($9, cellphone),
-    logo_url = COALESCE($10, logo_url),
-    fantasy_name = COALESCE($11, fantasy_name)
+    cnpj               = COALESCE($7, cnpj),
+    name               = COALESCE($8, name),
+    cellphone          = COALESCE($9, cellphone),
+    logo_url           = COALESCE($10, logo_url),
+    fantasy_name       = COALESCE($11, fantasy_name)
 WHERE id = $12
 RETURNING id, company_id, user_id, email, website, address, inscricao_estadual, cnpj, name, cellphone, logo_url, fantasy_name, created_at, updated_at
 `

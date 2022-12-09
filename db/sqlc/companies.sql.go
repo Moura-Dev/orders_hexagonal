@@ -9,8 +9,29 @@ import (
 	"context"
 )
 
+const createCompany = `-- name: CreateCompany :one
+INSERT INTO companies (name)
+VALUES ($1)
+RETURNING id, name, created_at, updated_at
+`
+
+func (q *Queries) CreateCompany(ctx context.Context, name string) (Company, error) {
+	row := q.db.QueryRowContext(ctx, createCompany, name)
+	var i Company
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+	)
+	return i, err
+}
+
 const deleteCompany = `-- name: DeleteCompany :one
-delete from companies where id = $1 returning id, name, created_at, updated_at
+DELETE
+FROM companies
+WHERE id = $1
+RETURNING id, name, created_at, updated_at
 `
 
 func (q *Queries) DeleteCompany(ctx context.Context, id int32) (Company, error) {
@@ -26,7 +47,9 @@ func (q *Queries) DeleteCompany(ctx context.Context, id int32) (Company, error) 
 }
 
 const getCompanyById = `-- name: GetCompanyById :one
-select id, name, created_at, updated_at from companies where id = $1
+SELECT id, name, created_at, updated_at
+FROM companies
+WHERE id = $1
 `
 
 func (q *Queries) GetCompanyById(ctx context.Context, id int32) (Company, error) {
@@ -41,24 +64,9 @@ func (q *Queries) GetCompanyById(ctx context.Context, id int32) (Company, error)
 	return i, err
 }
 
-const insertCompany = `-- name: InsertCompany :one
-insert into companies (name) values ($1) returning id, name, created_at, updated_at
-`
-
-func (q *Queries) InsertCompany(ctx context.Context, name string) (Company, error) {
-	row := q.db.QueryRowContext(ctx, insertCompany, name)
-	var i Company
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-	)
-	return i, err
-}
-
 const listCompanies = `-- name: ListCompanies :many
-select id, name, created_at, updated_at from companies
+SELECT id, name, created_at, updated_at
+FROM companies
 `
 
 func (q *Queries) ListCompanies(ctx context.Context) ([]Company, error) {

@@ -171,7 +171,7 @@ type Session struct {
 
 type User struct {
 	ID        int32
-	CompanyID sql.NullInt32
+	CompanyID int32
 	Name      string
 	Email     string
 	Password  string

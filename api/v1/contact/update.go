@@ -1,4 +1,4 @@
-package user
+package contact
 
 import (
 	"database/sql"
@@ -11,7 +11,7 @@ import (
 	"project-orders/db/sqlc"
 )
 
-func (u Contact) update(ctx *gin.Context) {
+func (c Contact) update(ctx *gin.Context) {
 	var req models.UpdateUserRequest
 
 	if err := ctx.ShouldBindJSON(&req); err != nil {
@@ -26,7 +26,7 @@ func (u Contact) update(ctx *gin.Context) {
 		Password: sql.NullString{String: req.Password, Valid: req.Password != ""},
 	}
 
-	user, err := u.db.UpdateUserByID(ctx, arg)
+	contact, err := c.db.UpdateUserByID(ctx, arg)
 	if err != nil {
 		if pqErr, ok := err.(*pq.Error); ok {
 			switch pqErr.Code.Name() {
@@ -39,7 +39,7 @@ func (u Contact) update(ctx *gin.Context) {
 		return
 	}
 
-	rsp := models.UserToJSON(user)
+	rsp := models.UserToJSON(contact)
 
 	ctx.JSON(http.StatusOK, rsp)
 }

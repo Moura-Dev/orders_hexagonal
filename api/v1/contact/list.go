@@ -1,4 +1,4 @@
-package user
+package contact
 
 import (
 	"net/http"
@@ -9,28 +9,28 @@ import (
 	"project-orders/db/sqlc"
 )
 
-func (u Contact) list(ctx *gin.Context) {
+func (c Contact) list(ctx *gin.Context) {
 	var req models.PaginationRequest
 	if err := ctx.ShouldBindQuery(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	args := sqlc.ListUsersParams{
+	args := sqlc.ListContactsParams{
 		Limit:   req.PageSize,
 		Offset:  (req.PageID - 1) * req.PageSize,
 		OrderBy: req.OrderBy,
 		Reverse: req.Reverse,
 	}
 
-	users, err := u.db.ListUsers(ctx, args)
+	contacts, err := c.db.ListContacts(ctx, args)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, err.Error())
 		return
 	}
-	if len(users) == 0 {
-		ctx.JSON(http.StatusOK, models.ListUserResponse{
-			Users: []models.UserResponse{},
+	if len(contacts) == 0 {
+		ctx.JSON(http.StatusOK, models.ListContactsResponse{
+			Contact: []models.ContactResponse{},
 			PaginationResponse: models.PaginationResponse{
 				Limit:  req.PageID,
 				Offset: req.PageSize,
@@ -39,7 +39,7 @@ func (u Contact) list(ctx *gin.Context) {
 		return
 	}
 
-	rsp := models.UsersToJSONList(users, req.PageID, req.PageSize)
+	rsp := models.ContactsToJSONList(contacts, req.PageID, req.PageSize)
 
 	ctx.JSON(http.StatusOK, rsp)
 }

@@ -1,12 +1,19 @@
 -- name: ListCompanies :many
-select * from companies;
-
+SELECT *
+FROM companies;
 
 -- name: GetCompanyById :one
-select * from companies where id = $1;
+SELECT *
+FROM companies
+WHERE id = $1;
 
--- name: InsertCompany :one
-insert into companies (name) values ($1) returning *;
+-- name: CreateCompany :one
+INSERT INTO companies (name)
+VALUES ($1)
+RETURNING *;
 
 -- name: DeleteCompany :one
-delete from companies where id = $1 returning *;
+DELETE
+FROM companies
+WHERE id = $1
+RETURNING *;

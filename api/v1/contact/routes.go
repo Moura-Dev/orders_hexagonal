@@ -1,4 +1,4 @@
-package user
+package contact
 
 import (
 	"github.com/gin-gonic/gin"
@@ -9,8 +9,8 @@ import (
 	"project-orders/util"
 )
 
-type IUser interface {
-	SetupUserRoute(routerGroup *gin.RouterGroup)
+type IContact interface {
+	SetupContactRoute(routerGroup *gin.RouterGroup)
 }
 
 type Contact struct {
@@ -19,7 +19,7 @@ type Contact struct {
 	config     util.Config
 }
 
-func NewUser(db db.Storage, config util.Config) IUser {
+func NewContact(db db.Storage, config util.Config) IContact {
 	tokenMaker, _ := token.NewPasetoMaker(config.TokenSymmetricKey)
 
 	return Contact{
@@ -29,12 +29,11 @@ func NewUser(db db.Storage, config util.Config) IUser {
 	}
 }
 
-func (u Contact) SetupUserRoute(routerGroup *gin.RouterGroup) {
-	routerGroup.POST("/user", c.create)
-
-	authRoutes := routerGroup.Group("/").Use(middleware.AuthMiddleware(u.tokenMaker))
-	authRoutes.GET("/user", u.list)
-	authRoutes.PATCH("/user", u.update)
-	authRoutes.GET("/user/:id", u.getByID)
-	authRoutes.DELETE("/user/:id", u.delete)
+func (c Contact) SetupContactRoute(routerGroup *gin.RouterGroup) {
+	authRoutes := routerGroup.Group("/").Use(middleware.AuthMiddleware(c.tokenMaker))
+	authRoutes.POST("/contact", c.create)
+	authRoutes.GET("/contact", c.list)
+	authRoutes.PATCH("/contact", c.update)
+	authRoutes.GET("/contact/:id", c.getByID)
+	authRoutes.DELETE("/contact/:id", c.delete)
 }

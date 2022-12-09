@@ -18,7 +18,7 @@ RETURNING id, company_id, name, email, password, created_at, updated_at
 `
 
 type CreateUserParams struct {
-	CompanyID sql.NullInt32
+	CompanyID int32
 	Name      string
 	Email     string
 	Password  string
@@ -133,7 +133,7 @@ type ListUsersParams struct {
 type ListUsersRow struct {
 	TotalItems int64
 	ID         int32
-	CompanyID  sql.NullInt32
+	CompanyID  int32
 	Name       string
 	Email      string
 	Password   string

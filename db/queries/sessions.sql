@@ -1,16 +1,19 @@
+-- noinspection SqlResolveForFile
+
 -- name: CreateSession :one
-INSERT INTO sessions (
-    id,
-    email,
-    refresh_token,
-    user_agent,
-    client_ip,
-    is_blocked,
-    expires_at
-) VALUES (
-             $1, $2, $3, $4, $5, $6, $7
-         ) RETURNING *;
+-- noinspection SqlResolve
+INSERT INTO sessions (id,
+                      email,
+                      refresh_token,
+                      user_agent,
+                      client_ip,
+                      is_blocked,
+                      expires_at)
+VALUES ($1, $2, $3, $4, $5, $6, $7)
+RETURNING *;
 
 -- name: GetSessionByID :one
-SELECT * FROM sessions
-WHERE id = $1 LIMIT 1;
+SELECT *
+FROM sessions
+WHERE id = $1
+LIMIT 1;

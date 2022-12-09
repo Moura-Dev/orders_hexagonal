@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
+	"project-orders/api/v1/contact"
 	"project-orders/api/v1/paseto"
 	"project-orders/api/v1/user"
 	"project-orders/db"
@@ -49,10 +50,11 @@ func (server *Server) createRoutesV1(router *gin.Engine) {
 
 	userRoutes := user.NewUser(server.storage, server.config)
 	pasetoRoutes := paseto.NewPaseto(server.storage)
+	contactRoutes := contact.NewContact(server.storage, server.config)
 
 	userRoutes.SetupUserRoute(v1)
 	pasetoRoutes.SetupPasetoRoute(v1)
-
+	contactRoutes.SetupContactRoute(v1)
 }
 
 func (server *Server) Start(address string) error {

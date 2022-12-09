@@ -1,4 +1,4 @@
-package user
+package contact
 
 import (
 	"database/sql"
@@ -9,14 +9,14 @@ import (
 	"project-orders/api/models"
 )
 
-func (u Contact) getByID(ctx *gin.Context) {
-	var req models.GetUserRequest
+func (c Contact) getByID(ctx *gin.Context) {
+	var req models.GetContactRequest
 	if err := ctx.ShouldBindUri(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	user, err := u.db.GetUserByID(ctx, req.ID)
+	contact, err := c.db.GetContactByID(ctx, req.ID)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			ctx.JSON(http.StatusNotFound, err.Error())
@@ -27,7 +27,7 @@ func (u Contact) getByID(ctx *gin.Context) {
 		return
 	}
 
-	rsp := models.UserToJSON(user)
+	rsp := models.ContactToJSON(contact)
 
 	ctx.JSON(http.StatusOK, rsp)
 }
