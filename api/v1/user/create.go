@@ -26,7 +26,7 @@ func (u User) create(ctx *gin.Context) {
 	}
 
 	arg := sqlc.CreateUserParams{
-		CompanyID: req.CompanyId,
+		CompanyID: req.CompanyID,
 		Name:      req.Name,
 		Email:     req.Email,
 		Password:  hashedPassword,

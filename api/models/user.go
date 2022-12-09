@@ -10,7 +10,7 @@ import (
 )
 
 type CreateUserRequest struct {
-	CompanyId int32  `json:"company_id"`
+	CompanyID int32  `json:"company_id"`
 	Name      string `json:"name" binding:"alpha"`
 	Email     string `json:"email" binding:"required,email"`
 	Password  string `json:"password" binding:"required"`

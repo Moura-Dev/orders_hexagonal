@@ -2,7 +2,7 @@
 SELECT *
 FROM companies;
 
--- name: GetCompanyById :one
+-- name: GetCompanyByID :one
 SELECT *
 FROM companies
 WHERE id = $1;
