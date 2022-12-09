@@ -39,16 +39,26 @@ type Catalog struct {
 
 type Company struct {
 	ID        int32
+	Name      string
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
 
 type Contact struct {
-	ID        int32
-	CompanyID sql.NullInt32
-	UserID    sql.NullInt32
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	ID                int32
+	CompanyID         sql.NullInt32
+	UserID            sql.NullInt32
+	Email             sql.NullString
+	Website           sql.NullString
+	Address           sql.NullString
+	InscricaoEstadual sql.NullString
+	Cnpj              sql.NullString
+	Name              sql.NullString
+	Cellphone         sql.NullString
+	LogoUrl           sql.NullString
+	FantasyName       sql.NullString
+	CreatedAt         time.Time
+	UpdatedAt         time.Time
 }
 
 type Costumer struct {

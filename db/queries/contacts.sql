@@ -20,7 +20,8 @@ FROM (SELECT *
                    WHEN NOT @reverse::bool AND @order_by::text = 'id' THEN id END,
                CASE
                    WHEN @reverse::bool AND @order_by::text = 'id' THEN id END DESC) sub_query
-
+LIMIT $1
+OFFSET $2;
 
 -- name: UpdateContactByID :one
 UPDATE contacts
@@ -37,6 +38,11 @@ SET company_id = COALESCE(sqlc.narg('company_id'), company_id),
     fantasy_name = COALESCE(sqlc.narg('fantasy_name'), fantasy_name)
 WHERE id = sqlc.arg('id')
 RETURNING *;
+-- name: CreateContact :one
+INSERT INTO contacts (company_id, user_id, email, website, address, inscricao_estadual, cnpj, name, cellphone, logo_url, fantasy_name)
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+RETURNING *;
+
 
 -- name: DeleteContactById :one
 DELETE
